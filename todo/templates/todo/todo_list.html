@@ -1,37 +1,67 @@
 <!DOCTYPE html>
 <html>
   <body>
-    {% if request.user.is_authenticated %}
-    <p>{{request.user}}</p>
-    <form method="post" action="{% url 'logout' %}">
-      {% csrf_token %}
-      <input type="submit" value="Logout">
-    </form>
-    {% else %}
-    <a href="{% url 'login' %}">Login</a>
-    {% endif %}
+    {% extends 'todo/main.html' %} {% block content %}
 
-    <hr />
+    <div class="header-bar">
+      <div>
+        <h1>Hello {{request.user|title}}</h1>
+        <h3 style="margin: 0">
+          You have <i>{{count}}</i> incomplete todo{{ count|pluralize:"s" }}
+        </h3>
+      </div>
 
-    <h1>My Todo List</h1>
-    <a href="{% url 'todo-create' %}">Add Todo</a>
+      {% if request.user.is_authenticated %}
+      <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <input
+          style="
+            border: none;
+            background: none;
+            color: rgb(247, 247, 247);
+            cursor: pointer;
+          "
+          type="submit"
+          value="Logout"
+        />
+      </form>
+      {% else %}
+      <a href="{% url 'login' %}">Login</a>
+      {% endif %}
+    </div>
 
-    <table>
-      <tr>
-        <th>Item</th>
-        <th></th>
-        <th></th>
-      </tr>
+    <div id="search-add-wrapper">
+      <form action="" method="GET" style="margin-top: 5px; display: flex">
+        <input type="text" name="search-area" value="{{search_input}}" />
+        <input class="button" type="submit" value="Search" />
+      </form>
+      <a id="add-link" href="{% url 'todo-create' %}">&#x2b;</a>
+    </div>
+
+    <div class="todo-items-wrapper">
       {% for todo in todos %}
-      <tr>
-        <td>{{todo.title}}</td>
-        <td><a href="{% url 'todo' todo.id %}">View</a></td>
-        <td><a href="{% url 'todo-update' todo.id %}">Edit</a></td>
-        <td><a href="{% url 'todo-delete' todo.id %}">Delete</a></td>
-      </tr>
+      <div class="todo-wrapper">
+        {% if todo.is_complete %}
+        <div class="todo-title">
+          <div class="todo-complete-icon"></div>
+          <i
+            ><s><a href="{% url 'todo-update' todo.id %}">{{todo}}</a></s></i
+          >
+        </div>
+        <a class="delete-link" href="{% url 'todo-delete' todo.id %}">&#215;</a>
+        {% else %}
+        <div class="todo-title">
+          <div class="todo-incomplete-icon"></div>
+          <a href="{% url 'todo-update' todo.id %}">{{todo}}</a>
+        </div>
+        <a class="delete-link" href="{% url 'todo-delete' todo.id %}">&#215;</a>
+        {% endif %}
+      </div>
+
       {% empty %}
       <h3>No items in list</h3>
       {% endfor %}
-    </table>
+    </div>
+    {% endblock content %}
   </body>
 </html>
