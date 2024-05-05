@@ -20,7 +20,7 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 2. Clone The Repository And Setup
+### 2. Clone The Repository And Setup ©
 
 ```bash
 git clone https://github.com/Sakshamkhandelwal123/Django-Todo-App.git
@@ -34,16 +34,16 @@ Install `pip` dependencies with the provided `requirements.txt`:
 pip install -r requirements.txt
 ```
 
-### 4. Migration
+### 4. Migration 🦅
 
-Once you have downloaded all packages, go to the cloned repo directory and run the following commands
+Once you have downloaded all the packages, go to the cloned repo directory and run the following commands
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 5. Admin User
+### 5. Admin User 👤
 
 We need to create an admin user to run this App. On the terminal, type the following command and provide username, password and email for the admin user
 
@@ -52,8 +52,6 @@ python manage.py createsuperuser
 ```
 
 ### 6. Run the application 🏃‍♂️
-
-Run the app:
 
 ```
 python manage.py runserver
